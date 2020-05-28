@@ -36,6 +36,7 @@ INSTALLED_APPS = [
     # third-party
     'grappelli',
     # native
+    'django.contrib.humanize',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -43,6 +44,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     # own
+    'siteviewer.apps.SiteviewerConfig',
 ]
 
 MIDDLEWARE = [
@@ -135,3 +137,5 @@ STATIC_ROOT = os.path.join(PROJECT_ROOT, 'assets')
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+
+LOGIN_REDIRECT_URL = '/'

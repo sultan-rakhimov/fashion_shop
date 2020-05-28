@@ -1,0 +1,44 @@
+{% extends 'siteviewer/base.html' %}
+
+{% load static %}
+{% load humanize %}
+
+{% block title %}Product: {{ product.title }}{% endblock %}
+
+{% block content %}
+
+<a href="{{ product.get_absolute_url }}">
+    <h6>{{ product.title }}</h6>
+</a>
+<img src="{{ product.image.url }}" alt="">
+{% for category in product.categories.all %}
+<strong>{{ category.title }}</strong>
+{% endfor %}
+{% for size in product.sizes.all %}
+<strong>{{ size.title }}</strong>
+{% endfor %}
+{% for color in product.colors.all %}
+<strong>{{ category.title }}</strong>
+{% endfor %}
+<p>{{ product.description|safe }}</p>
+{% for image in product.images.all %}
+<img src="{{ image.image.url }}" alt="">
+{% empty %}
+{% endfor %}
+<i>{{ product.date|date:"F D Y" }}</i>
+
+<form action="{% url 'reviews' product.slug %}" method="POST">
+    {% csrf_token %}
+    <textarea placeholder="Comment here..." name="review_text" id="" cols="30" rows="10"></textarea>
+    <button>Comment</button>
+</form>
+<br>
+<p>There are {{ latest_reviews.count }} comments</p>
+{% for review in latest_reviews %}
+<p>{{ review.text }}</p>
+<i>{{ review.time|timesince }} ago</i>
+{% empty %}
+<p>No reviews. Be the first... and honest :D</p>
+{% endfor %}
+
+{% endblock %}

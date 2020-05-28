@@ -1,0 +1,31 @@
+{% extends 'siteviewer/base.html' %}
+
+{% load static %}
+
+{% block title %}Home{% endblock %}
+
+{% block styles %}
+
+<link rel="stylesheet" href="{% static 'home/css/home.css' %}">
+
+{% endblock %}
+
+{% block content %}
+
+{% for product in products %}
+<a href="{{ product.get_absolute_url }}">
+    <h6>{{ product.title|safe }}</h6>
+</a>
+<img src="{{ product.image.url }}" alt="">
+{% empty %}
+<p>Nothing found</p>
+{% endfor %}
+
+
+{% endblock %}
+
+{% block scripts %}
+
+<script src="{% static 'home/js/home.js' %}"></script>
+
+{% endblock %}
