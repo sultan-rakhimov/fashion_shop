@@ -1,9 +1,10 @@
 from django.shortcuts import render, reverse, redirect
 from .models import Color, Category, Review, Size, Product
-from .forms import UserForm
+from .forms import UserForm, CreateProduct, UpdateProduct
 from django.contrib.auth.models import User
 from django.db.models import Q
 from django.http import HttpResponse, Http404
+from django.views.generic import ListView, DetailView, CreateView
 
 
 def home(request):
@@ -56,8 +57,37 @@ def filter(request):
         )
     return render(request, 'siteviewer/home_filter.html', {'products': products})
 
-    '''
-        for color|size in colors|sizes:
-        label>{{color.name}}|{{size.name}}
-        input type=radio name=size|color value={{size.id}}|{{color.id}}
-        '''
+
+def create_product(request):
+    if request.method == 'POST':
+        form = CreateProduct(request.POST, request.FILES)
+        if form.is_valid():
+            product = form.save(user=request.user)
+            product.colors.add(request.POST.get('colors'))
+            product.sizes.add(request.POST.get('sizes'))
+            product.categories.add(request.POST.get('categories'))
+            product.save()
+            return redirect(reverse('product_detail_url', args=(product.slug,)))
+    else:
+        form = CreateProduct()
+    return render(request, 'siteviewer/product_form.html', {'form': form})
+
+
+def delete_product(request, id):
+    product = Product.objects.get(id=id)
+    if product.user == request.user:
+        if request.method == 'POST':
+            product.delete()
+    return redirect('home')
+
+
+def update_product(request, id):
+    product = Product.objects.get(id=id)
+    if request.method == 'POST':
+        form = UpdateProduct(request.POST, request.FILES)
+        if form.is_valid():
+            form.save()
+            return redirect("home")
+    else:
+        form = UpdateProduct(instance=product)
+    return render(request, 'siteviewer/product_edit.html', {'form': form, 'product': product})

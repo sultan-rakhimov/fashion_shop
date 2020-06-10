@@ -1,6 +1,7 @@
 from django.contrib.auth.forms import UserCreationForm
 from django import forms
 from django.contrib.auth.models import User
+from .models import Product
 
 
 class UserForm(UserCreationForm):
@@ -29,3 +30,29 @@ class UserForm(UserCreationForm):
         user.email = self.cleaned_data['email']
         user.save()
         return user
+
+
+class CreateProduct(forms.ModelForm):
+    class Meta:
+        model = Product
+        fields = ('title', 'description', 'image',
+                  'categories', 'sizes', 'colors', 'images', 'slug',)
+
+    def save(self, user, commit=True):
+        product = super().save(commit=False)
+        product.user = user
+        product.save()
+        return product
+
+
+class UpdateProduct(forms.ModelForm):
+    class Meta:
+        model = Product
+        fields = ('title', 'description', 'image',
+                  'categories', 'sizes', 'colors', 'images', 'slug',)
+
+    def save(self, user, commit=True):
+        product = super().save(commit=False)
+        product.user = user
+        product.save()
+        return product

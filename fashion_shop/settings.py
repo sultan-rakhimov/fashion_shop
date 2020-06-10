@@ -35,6 +35,7 @@ ALLOWED_HOSTS = []
 INSTALLED_APPS = [
     # third-party
     'grappelli',
+    'crispy_forms',
     # native
     'django.contrib.humanize',
     'django.contrib.admin',

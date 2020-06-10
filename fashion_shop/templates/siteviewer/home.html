@@ -32,6 +32,11 @@
     <h6>{{ product.title|safe }}</h6>
 </a>
 <img src="{{ product.image.url }}" alt="">
+<a href="{% url 'edit_product' product.id %}">Edit</a>
+<form action="{% url 'delete_product' product.id %}" method="POST">
+    {% csrf_token %}
+    <button onclick="window.confirm('Do ypu want to delete this ebanat?')">DElete</button>
+</form>
 {% endfor %}
 
 {% endblock %}
