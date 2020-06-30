@@ -1,0 +1,9 @@
+{
+    "version": 3,
+    "mappings": "AAAA,AAAA,QAAQ,CAAC,EAAE,CAAC;EAEJ,SAAI,EAAE,IAAI;CAAK",
+    "sources": [
+        "../Product.module.sass"
+    ],
+    "names": [],
+    "file": "Product.module.css"
+}
